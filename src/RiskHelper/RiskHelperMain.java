@@ -231,7 +231,7 @@ public class RiskHelperMain {
 	
 	//creates a pseudo-random int between 1 and 6, virtual dice roll
 	public static int roll(){
-		Random rand = new Random();;
+		Random rand = new Random();
 		int randomNum = rand.nextInt((6 - 1) + 1) + 1;
 		return randomNum;
 	}
