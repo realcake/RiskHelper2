@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 
 public class RiskHelper {
 
-	JFrame frame;
+	public JFrame frame;
 	private static JTextField attkTextField;
 	private static JTextField dfndTextField;
 	private static JTextField attkRollText;
@@ -117,9 +117,12 @@ public class RiskHelper {
 		gbc_DfndRollText.gridy = 3;
 		frame.getContentPane().add(dfndRollText, gbc_DfndRollText);
 		dfndRollText.setColumns(10);
-
-		dfndTextField.setText("" + dfndUnits);
-		attkTextField.setText("" + attkUnits);
+		
+		dfndUnits = Integer.parseInt(dfndTextField.getText());
+		attkUnits = Integer.parseInt(attkTextField.getText());
+		
+		//dfndTextField.setText("" + dfndUnits);
+		//attkTextField.setText("" + attkUnits);
 
 	}
 
@@ -194,7 +197,7 @@ public class RiskHelper {
 		// compare the rolls
 
 		for (int i = 0; i <= toDfnd - 1; i++) {
-			if (AttkRolls[i] > DfndRolls[i]) {
+			if (AttkRolls[i] < DfndRolls[i]) {
 				attkUnits -= 1;
 			} else {
 				dfndUnits -= 1;
