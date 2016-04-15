@@ -29,8 +29,8 @@ public class RiskHelper {
 	private static JTextField dfndRollText;
 
 	// set default minimum to attack/defend
-	public static int attkUnits = 2;
-	public static int dfndUnits = 1;
+	public static int attkUnits;
+	public static int dfndUnits;
 
 	/**
 	 * Initialize the contents of the frame.
@@ -118,8 +118,8 @@ public class RiskHelper {
 		frame.getContentPane().add(dfndRollText, gbc_DfndRollText);
 		dfndRollText.setColumns(10);
 		
-		dfndUnits = Integer.parseInt(dfndTextField.getText());
-		attkUnits = Integer.parseInt(attkTextField.getText());
+		//dfndUnits = Integer.parseInt(dfndTextField.getText());
+		//attkUnits = Integer.parseInt(attkTextField.getText());
 		
 		//dfndTextField.setText("" + dfndUnits);
 		//attkTextField.setText("" + attkUnits);
@@ -196,11 +196,13 @@ public class RiskHelper {
 
 		// compare the rolls
 
-		for (int i = 0; i <= toDfnd - 1; i++) {
-			if (AttkRolls[i] < DfndRolls[i]) {
-				attkUnits -= 1;
-			} else {
+		for (int i = 0; i <= (toDfnd -1); i++) {
+			if (AttkRolls[i] > DfndRolls[i]) {
+				//attkUnits -= 1;
 				dfndUnits -= 1;
+			} else {
+				//dfndUnits -= 1;
+				attkUnits -= 1;
 			}
 		}
 
