@@ -23,10 +23,10 @@ import javax.swing.JTextField;
 public class RiskHelper {
 
 	public JFrame frame;
-	private static JTextField attkTextField;
-	private static JTextField dfndTextField;
-	private static JTextField attkRollText;
-	private static JTextField dfndRollText;
+	private static JTextField attackField;
+	private static JTextField defendField;
+	private static JTextField attackRollField;
+	private static JTextField defendRollField;
 
 	// set default minimum to attack/defend
 	public static int attkUnits;
@@ -47,6 +47,7 @@ public class RiskHelper {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
+		// TODO: Reuse the same GridBagConstraints
 		JSeparator separator = new JSeparator();
 		GridBagConstraints gbc_separator = new GridBagConstraints();
 		gbc_separator.insets = new Insets(0, 0, 5, 5);
@@ -54,40 +55,40 @@ public class RiskHelper {
 		gbc_separator.gridy = 0;
 		frame.getContentPane().add(separator, gbc_separator);
 
-		JLabel AttkLbl = new JLabel("Attacker");
+		JLabel attackLabel = new JLabel("Attacking Units");
 		GridBagConstraints gbc_AttkLbl = new GridBagConstraints();
 		gbc_AttkLbl.insets = new Insets(0, 0, 5, 5);
 		gbc_AttkLbl.gridx = 1;
 		gbc_AttkLbl.gridy = 0;
-		frame.getContentPane().add(AttkLbl, gbc_AttkLbl);
+		frame.getContentPane().add(attackLabel, gbc_AttkLbl);
 
-		JLabel DfndLbl = new JLabel("Defender");
+		JLabel defendLabel = new JLabel("Defending Units");
 		GridBagConstraints gbc_DfndLbl = new GridBagConstraints();
 		gbc_DfndLbl.insets = new Insets(0, 0, 5, 0);
 		gbc_DfndLbl.gridx = 2;
 		gbc_DfndLbl.gridy = 0;
-		frame.getContentPane().add(DfndLbl, gbc_DfndLbl);
+		frame.getContentPane().add(defendLabel, gbc_DfndLbl);
 
-		attkTextField = new JTextField();
+		attackField = new JTextField();
 		GridBagConstraints gbc_AttkTextField = new GridBagConstraints();
 		gbc_AttkTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_AttkTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_AttkTextField.gridx = 1;
 		gbc_AttkTextField.gridy = 1;
-		frame.getContentPane().add(attkTextField, gbc_AttkTextField);
-		attkTextField.setColumns(10);
+		frame.getContentPane().add(attackField, gbc_AttkTextField);
+		attackField.setColumns(10);
 
-		dfndTextField = new JTextField();
+		defendField = new JTextField();
 		GridBagConstraints gbc_DfndTextField = new GridBagConstraints();
 		gbc_DfndTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_DfndTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_DfndTextField.gridx = 2;
 		gbc_DfndTextField.gridy = 1;
-		frame.getContentPane().add(dfndTextField, gbc_DfndTextField);
-		dfndTextField.setColumns(10);
+		frame.getContentPane().add(defendField, gbc_DfndTextField);
+		defendField.setColumns(10);
 
-		JButton btnNewButton = new JButton("Roll Once");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton rollButton = new JButton("Roll Once");
+		rollButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				rollOnce();
@@ -97,32 +98,33 @@ public class RiskHelper {
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 2;
-		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
+		frame.getContentPane().add(rollButton, gbc_btnNewButton);
 
-		attkRollText = new JTextField();
-		attkRollText.setEditable(false);
+		attackRollField = new JTextField();
+		attackRollField.setEditable(false);
 		GridBagConstraints gbc_AttkRollText = new GridBagConstraints();
 		gbc_AttkRollText.insets = new Insets(0, 0, 0, 5);
 		gbc_AttkRollText.fill = GridBagConstraints.HORIZONTAL;
 		gbc_AttkRollText.gridx = 1;
 		gbc_AttkRollText.gridy = 3;
-		frame.getContentPane().add(attkRollText, gbc_AttkRollText);
-		attkRollText.setColumns(10);
+		frame.getContentPane().add(attackRollField, gbc_AttkRollText);
+		attackRollField.setColumns(10);
 
-		dfndRollText = new JTextField();
-		dfndRollText.setEditable(false);
+		defendRollField = new JTextField();
+		defendRollField.setEditable(false);
 		GridBagConstraints gbc_DfndRollText = new GridBagConstraints();
 		gbc_DfndRollText.fill = GridBagConstraints.HORIZONTAL;
 		gbc_DfndRollText.gridx = 2;
 		gbc_DfndRollText.gridy = 3;
-		frame.getContentPane().add(dfndRollText, gbc_DfndRollText);
-		dfndRollText.setColumns(10);
-		
-		//dfndUnits = Integer.parseInt(dfndTextField.getText());
-		//attkUnits = Integer.parseInt(attkTextField.getText());
-		
-		//dfndTextField.setText("" + dfndUnits);
-		//attkTextField.setText("" + attkUnits);
+		frame.getContentPane().add(defendRollField, gbc_DfndRollText);
+		defendRollField.setColumns(10);
+
+		// TODO: Leave an explanation for commented out code or remove it
+		// dfndUnits = Integer.parseInt(defendField.getText());
+		// attkUnits = Integer.parseInt(attackField.getText());
+
+		// defendField.setText("" + dfndUnits);
+		// attackField.setText("" + attkUnits);
 
 	}
 
@@ -130,13 +132,13 @@ public class RiskHelper {
 	public static void rollOnce() {
 		// if the user tries to get tricky
 		if (attkUnits < 1 || dfndUnits < 1) {
-			attkTextField.setText("ERROR: not enough units!");
-			dfndTextField.setText("ERROR: not enough units!");
+			attackField.setText("ERROR: not enough units!");
+			defendField.setText("ERROR: not enough units!");
 		}
 		// extract the int values from the text fields
-		attkUnits = Integer.parseInt(attkTextField.getText());
+		attkUnits = Integer.parseInt(attackField.getText());
 
-		dfndUnits = Integer.parseInt(dfndTextField.getText());
+		dfndUnits = Integer.parseInt(defendField.getText());
 
 		// the array that stores the dice roll
 		int[] AttkRolls;
@@ -196,23 +198,23 @@ public class RiskHelper {
 
 		// compare the rolls
 
-		for (int i = 0; i <= (toDfnd -1); i++) {
+		for (int i = 0; i <= toDfnd - 1; i++) {
 			if (AttkRolls[i] > DfndRolls[i]) {
-				//attkUnits -= 1;
+				// attkUnits -= 1;
 				dfndUnits -= 1;
 			} else {
-				//dfndUnits -= 1;
+				// dfndUnits -= 1;
 				attkUnits -= 1;
 			}
 		}
 
 		// set the text areas to the new values
 
-		attkRollText.setText(Arrays.toString(AttkRolls));
-		dfndRollText.setText(Arrays.toString(DfndRolls));
+		attackRollField.setText(Arrays.toString(AttkRolls));
+		defendRollField.setText(Arrays.toString(DfndRolls));
 
-		attkTextField.setText("" + attkUnits);
-		dfndTextField.setText("" + dfndUnits);
+		attackField.setText("" + attkUnits);
+		defendField.setText("" + dfndUnits);
 
 	}
 
