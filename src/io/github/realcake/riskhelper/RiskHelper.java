@@ -4,15 +4,13 @@
  * Feel free to do whatever with this, I won't be responsible for it
  */
 
-package RiskHelper;
+package io.github.realcake.riskhelper;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,7 +20,7 @@ import javax.swing.JTextField;
 
 public class RiskHelper {
 
-	private Random rand = new Random();
+	private final String OUT_OF_UNITS_MESSAGE = "Too few units to roll";
 
 	// Made with the package visibility level
 	// Since it only needs to be seen by Main outside of this class
@@ -103,6 +101,8 @@ public class RiskHelper {
 		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 2;
 		frame.getContentPane().add(rollButton, gbc_btnNewButton);
+		// Make rollButton the enter key action
+		frame.getRootPane().setDefaultButton(rollButton);
 
 		attackRollField = new JTextField();
 		attackRollField.setEditable(false);
@@ -122,110 +122,46 @@ public class RiskHelper {
 		gbc_DfndRollText.gridy = 3;
 		frame.getContentPane().add(defendRollField, gbc_DfndRollText);
 		defendRollField.setColumns(10);
-
-		// TODO: Leave an explanation for commented out code or remove it
-		// defendUnits = Integer.parseInt(defendField.getText());
-		// attackUnits = Integer.parseInt(attackField.getText());
-
-		// defendField.setText("" + defendUnits);
-		// attackField.setText("" + attackUnits);
-
 	}
 
-	/** Code for rolling */
+	/**
+	 * Code for rolling
+	 */
 	public void rollOnce() {
-		// if the user tries to get tricky
+		// Update the unit numbers
+		getUnitNumbers();
 		if (attackUnits < 1 || defendUnits < 1) {
-			attackField.setText("ERROR: not enough units!");
-			defendField.setText("ERROR: not enough units!");
+			// if the user tries to get tricky
+			attackField.setText(OUT_OF_UNITS_MESSAGE);
+			defendField.setText(OUT_OF_UNITS_MESSAGE);
+
+		} else {
+			Roll rollResult = new Roll(attackUnits, defendUnits);
+
+			attackRollField.setText(rollResult.prettyAttackRolls());
+			defendRollField.setText(rollResult.prettyDefendRolls());
+
+			attackField.setText("" + attackUnits);
+			defendField.setText("" + defendUnits);
 		}
-		// extract the int values from the text fields
-		attackUnits = Integer.parseInt(attackField.getText());
-
-		defendUnits = Integer.parseInt(defendField.getText());
-
-		// the array that stores the dice roll
-		int[] attackRolls;
-		int[] defendRolls;
-
-		// set the default values of dice to roll so eclipse doesn't get mad
-		// (in case your forgot how this works in Risk)
-		// the defender can have 1 die per unit up to 2 dice, the attacker can
-		// have a die for every unit more they have, to a max of 3, for
-		// instance, 3 attl units gets you 2 dice, 4 units for 3, 2 for 1
-		int attackingDice = 2;
-		int defendingDice = 1;
-
-		if (attackUnits == 1) {
-			attackingDice = 1;
-		} else if (attackUnits == 2) {
-			attackingDice = 2;
-		} else if (attackUnits >= 3) {
-			attackingDice = 3;
-		}
-
-		if (defendUnits == 1) {
-			defendingDice = 1;
-		} else if (defendUnits >= 2) {
-			defendingDice = 2;
-		}
-
-		// set the arrays to the length of how many dice/die it may contain
-		attackRolls = new int[attackingDice];
-		defendRolls = new int[defendingDice];
-
-		// set it to the pseudo-random values
-		for (int i = 0; i < attackingDice; i++) {
-			attackRolls[i] = roll();
-		}
-		for (int i = 0; i < defendingDice; i++) {
-			defendRolls[i] = roll();
-		}
-
-		// sort and reverse array (why don't they make it descending order by
-		// default?)
-		Arrays.sort(attackRolls);
-		Arrays.sort(defendRolls);
-
-		// reversing the array to decending order
-		for (int i = 0; i < attackRolls.length / 2; i++) {
-			int temp = attackRolls[i];
-			attackRolls[i] = attackRolls[attackRolls.length - i - 1];
-			attackRolls[attackRolls.length - i - 1] = temp;
-		}
-
-		for (int i = 0; i < defendRolls.length / 2; i++) {
-			int temp = defendRolls[i];
-			defendRolls[i] = defendRolls[defendRolls.length - i - 1];
-			defendRolls[defendRolls.length - i - 1] = temp;
-		}
-
-		// compare the rolls
-
-		for (int i = 0; i <= defendingDice - 1; i++) {
-			if (attackRolls[i] > defendRolls[i]) {
-				// attackUnits -= 1;
-				defendUnits -= 1;
-			} else {
-				// defendUnits -= 1;
-				attackUnits -= 1;
-			}
-		}
-
-		// set the text areas to the new values
-
-		attackRollField.setText(Arrays.toString(attackRolls));
-		defendRollField.setText(Arrays.toString(defendRolls));
-
-		attackField.setText("" + attackUnits);
-		defendField.setText("" + defendUnits);
-
 	}
 
-	// creates a pseudo-random int between 1 and 6, virtual dice roll
-	public int roll() {
-		int randomNum = rand.nextInt(6 - 1 + 1) + 1;
-		return randomNum;
-	}
+	/**
+	 * Fetch unit numbers and update attackUnits and defendUnits
+	 */
+	public void getUnitNumbers() {
+		try {
+			attackUnits = Integer.parseInt(attackField.getText());
+		} catch (NumberFormatException e) {
+			attackField.setText("");
+			attackUnits = 0;
+		}
 
+		try {
+			defendUnits = Integer.parseInt(defendField.getText());
+		} catch (NumberFormatException e) {
+			defendField.setText("");
+			attackUnits = 0;
+		}
+	}
 }
