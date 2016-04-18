@@ -7,10 +7,16 @@ public class Roll {
 
 	public static Random rand = new Random();
 
+	public static int defendUnits;
+	public static int attackUnits;
+	
 	private int[] attackRolls;
 	private int[] defendRolls;
 
 	public Roll(int attackingUnits, int defendingUnits) {
+		defendUnits = RiskHelper.defendUnits;
+		attackUnits = RiskHelper.attackUnits;
+		
 		// set the default values of dice to roll so eclipse doesn't get mad
 		// (in case your forgot how this works in Risk)
 		// the defender can have 1 die per unit up to 2 dice, the attacker can
@@ -19,17 +25,17 @@ public class Roll {
 		int attackingDice = 2;
 		int defendingDice = 1;
 
-		if (attackingUnits == 1) {
+		if (attackUnits == 1) {
 			attackingDice = 1;
-		} else if (attackingUnits == 2) {
+		} else if (attackUnits == 2) {
 			attackingDice = 2;
-		} else if (attackingUnits >= 3) {
+		} else if (attackUnits >= 3) {
 			attackingDice = 3;
 		}
 
-		if (defendingUnits == 1) {
+		if (defendUnits == 1) {
 			defendingDice = 1;
-		} else if (defendingUnits >= 2) {
+		} else if (defendUnits >= 2) {
 			defendingDice = 2;
 		}
 
@@ -64,18 +70,21 @@ public class Roll {
 		}
 
 		// compare the rolls
-
+		System.out.println("Comparing rolls");
 		for (int i = 0; i <= defendingDice - 1; i++) {
 			if (attackRolls[i] > defendRolls[i]) {
 				// attackUnits -= 1;
-				defendingUnits -= 1;
+				defendUnits -= 1;
+				System.out.println("Removing defendUnits");
 			} else {
 				// defendUnits -= 1;
-				attackingUnits -= 1;
+				attackUnits -= 1;
+				System.out.println("Removing attackUnits");
 			}
 		}
+	System.out.println("done with roll");
 	}
-
+	
 	public String prettyAttackRolls() {
 		return Arrays.toString(attackRolls);
 	}
