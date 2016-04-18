@@ -104,6 +104,22 @@ public class RiskHelper {
 		// Make rollButton the enter key action
 		frame.getRootPane().setDefaultButton(rollButton);
 
+		JButton autoRollButton = new JButton("Auto-Roll");
+		autoRollButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getUnitNumbers();
+				System.out.println("btn pressed");
+				rollOnce();
+			}
+		});
+		GridBagConstraints gbc_autoRollButton = new GridBagConstraints();
+		gbc_autoRollButton.insets = new Insets(0, 0, 5, 5);
+		gbc_autoRollButton.gridx = 2;
+		gbc_autoRollButton.gridy = 2;
+		frame.getContentPane().add(autoRollButton, gbc_autoRollButton);
+		// Make rollButton the enter key action
+		
 		attackRollField = new JTextField();
 		attackRollField.setEditable(false);
 		GridBagConstraints gbc_AttkRollText = new GridBagConstraints();
@@ -123,10 +139,21 @@ public class RiskHelper {
 		frame.getContentPane().add(defendRollField, gbc_DfndRollText);
 		defendRollField.setColumns(10);
 	}
-
+	
 	/**
 	 * Code for rolling
 	 */
+	
+	public void autoRoll(){
+		getUnitNumbers();
+		rollOnce();
+		System.out.println("got units");
+		while(attackUnits > 1 && defendUnits > 0){
+			System.out.println("rollOnce()");
+			rollOnce();
+		}
+	}
+	
 	public void rollOnce() {
 		// Update the unit numbers
 		getUnitNumbers();
