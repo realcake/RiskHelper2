@@ -1,4 +1,4 @@
-package io.github.realcake.riskhelper;
+package io.github.realcake.riskhelper2;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

@@ -1,4 +1,4 @@
-package io.github.realcake.riskhelper;
+package io.github.realcake.riskhelper2;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -10,14 +10,24 @@ public class Roll {
 	private int[] attackRolls;
 	private int[] defendRolls;
 
+	// TODO: Leaving these in as they may be useful in the future
+	// private int attackingUnits;
+	// private int defendingUnits;
+
+	private int attackingDice;
+	private int defendingDice;
+
 	public Roll(int attackingUnits, int defendingUnits) {
+		// this.attackingUnits = attackingUnits;
+		// this.defendingUnits = defendingUnits;
+
 		// set the default values of dice to roll so eclipse doesn't get mad
 		// (in case your forgot how this works in Risk)
 		// the defender can have 1 die per unit up to 2 dice, the attacker can
 		// have a die for every unit more they have, to a max of 3, for
 		// instance, 3 attl units gets you 2 dice, 4 units for 3, 2 for 1
-		int attackingDice = 2;
-		int defendingDice = 1;
+		attackingDice = 2;
+		defendingDice = 1;
 
 		if (attackingUnits == 1) {
 			attackingDice = 1;
@@ -62,18 +72,6 @@ public class Roll {
 			defendRolls[i] = defendRolls[defendRolls.length - i - 1];
 			defendRolls[defendRolls.length - i - 1] = temp;
 		}
-
-		// compare the rolls
-
-		for (int i = 0; i <= defendingDice - 1; i++) {
-			if (attackRolls[i] > defendRolls[i]) {
-				// attackUnits -= 1;
-				defendingUnits -= 1;
-			} else {
-				// defendUnits -= 1;
-				attackingUnits -= 1;
-			}
-		}
 	}
 
 	public String prettyAttackRolls() {
@@ -88,6 +86,26 @@ public class Roll {
 	public static int roll() {
 		int randomNum = rand.nextInt(6 - 1 + 1) + 1;
 		return randomNum;
+	}
+
+	public int getDefendUnitLosses() {
+		int losses = 0;
+		for (int i = 0; i < defendingDice; i++) {
+			if (attackRolls[i] > defendRolls[i]) {
+				losses++;
+			}
+		}
+		return losses;
+	}
+
+	public int getAttackUnitLosses() {
+		int losses = 0;
+		for (int i = 0; i < defendingDice; i++) {
+			if (attackRolls[i] <= defendRolls[i]) {
+				losses++;
+			}
+		}
+		return losses;
 	}
 
 }

@@ -4,7 +4,7 @@
  * Feel free to do whatever with this, I won't be responsible for it
  */
 
-package io.github.realcake.riskhelper;
+package io.github.realcake.riskhelper2;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -119,7 +119,7 @@ public class RiskHelper {
 		gbc_autoRollButton.gridy = 2;
 		frame.getContentPane().add(autoRollButton, gbc_autoRollButton);
 		// Make rollButton the enter key action
-		
+
 		attackRollField = new JTextField();
 		attackRollField.setEditable(false);
 		GridBagConstraints gbc_AttkRollText = new GridBagConstraints();
@@ -139,21 +139,21 @@ public class RiskHelper {
 		frame.getContentPane().add(defendRollField, gbc_DfndRollText);
 		defendRollField.setColumns(10);
 	}
-	
+
 	/**
 	 * Code for rolling
 	 */
-	
-	public void autoRoll(){
+
+	public void autoRoll() {
 		getUnitNumbers();
 		rollOnce();
 		System.out.println("got units");
-		while(attackUnits > 1 && defendUnits > 0){
+		while (attackUnits > 1 && defendUnits > 0) {
 			System.out.println("rollOnce()");
 			rollOnce();
 		}
 	}
-	
+
 	public void rollOnce() {
 		// Update the unit numbers
 		getUnitNumbers();
@@ -170,6 +170,11 @@ public class RiskHelper {
 
 			attackField.setText("" + attackUnits);
 			defendField.setText("" + defendUnits);
+
+			attackUnits -= rollResult.getAttackUnitLosses();
+			defendUnits -= rollResult.getDefendUnitLosses();
+
+			updateTextFields();
 		}
 	}
 
@@ -188,7 +193,15 @@ public class RiskHelper {
 			defendUnits = Integer.parseInt(defendField.getText());
 		} catch (NumberFormatException e) {
 			defendField.setText("");
-			attackUnits = 0;
+			defendUnits = 0;
 		}
+	}
+
+	/**
+	 * Set the contents of the text fields to the unit variables
+	 */
+	public void updateTextFields() {
+		attackField.setText("" + attackUnits);
+		defendField.setText("" + defendUnits);
 	}
 }
