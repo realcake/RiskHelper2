@@ -6,3 +6,16 @@ This is the third itteration of RiskHelper, a small appplication that rolls for 
 Author: Sean McKenna
 
 Colaborator: Andrew Hyatt
+
+
+TO-DO:
+
+~~Show rolls~~
+
+~~Display units~~
+
+~~Auto-roll~~
+
+Show odds
+
+More fun graphics
