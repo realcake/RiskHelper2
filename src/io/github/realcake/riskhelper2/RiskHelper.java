@@ -109,8 +109,7 @@ public class RiskHelper {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getUnitNumbers();
-				System.out.println("btn pressed");
-				rollOnce();
+				autoRoll();
 			}
 		});
 		GridBagConstraints gbc_autoRollButton = new GridBagConstraints();
@@ -147,9 +146,7 @@ public class RiskHelper {
 	public void autoRoll() {
 		getUnitNumbers();
 		rollOnce();
-		System.out.println("got units");
 		while (attackUnits > 1 && defendUnits > 0) {
-			System.out.println("rollOnce()");
 			rollOnce();
 		}
 	}
