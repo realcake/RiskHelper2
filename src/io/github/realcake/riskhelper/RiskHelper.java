@@ -31,8 +31,8 @@ public class RiskHelper {
 	private JTextField defendRollField;
 
 	// set default minimum to attack/defend
-	public static int attackUnits;
-	public static int defendUnits;
+	public int attackUnits;
+	public int defendUnits;
 
 	/**
 	 * Initialize the contents of the frame.
@@ -168,9 +168,6 @@ public class RiskHelper {
 			attackRollField.setText(rollResult.prettyAttackRolls());
 			defendRollField.setText(rollResult.prettyDefendRolls());
 
-			attackUnits = Roll.attackUnits;
-			defendUnits = Roll.defendUnits;
-			
 			attackField.setText("" + attackUnits);
 			defendField.setText("" + defendUnits);
 		}
