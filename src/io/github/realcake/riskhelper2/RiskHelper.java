@@ -12,6 +12,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +34,9 @@ public class RiskHelper {
 	// set default minimum to attack/defend
 	public int attackUnits;
 	public int defendUnits;
+	
+	public int[] attackRolls;
+	public int[] defendRolls;
 
 	/**
 	 * Initialize the contents of the frame.
@@ -40,7 +44,7 @@ public class RiskHelper {
 	public RiskHelper() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 163);
+		frame.setBounds(100, 100, 450, 215);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -48,7 +52,7 @@ public class RiskHelper {
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
-
+		
 		// TODO: Reuse the same GridBagConstraints
 		JSeparator separator = new JSeparator();
 		GridBagConstraints gbc_separator = new GridBagConstraints();
@@ -63,7 +67,46 @@ public class RiskHelper {
 		gbc_AttkLbl.gridx = 1;
 		gbc_AttkLbl.gridy = 0;
 		frame.getContentPane().add(attackLabel, gbc_AttkLbl);
+		
+		//lables for dice
+		
+		JLabel attackDice1 = new JLabel("A1");
+		GridBagConstraints gbc_attackDice1 = new GridBagConstraints();
+		gbc_attackDice1.insets = new Insets(0, 0, 5, 5);
+		gbc_attackDice1.gridx = 1;
+		gbc_attackDice1.gridy = 4;
+		frame.getContentPane().add(attackDice1, gbc_attackDice1);
+		
+		
+		JLabel attackDice2 = new JLabel("A2");
+		GridBagConstraints gbc_attackDice2 = new GridBagConstraints();
+		gbc_attackDice2.insets = new Insets(0, 0, 5, 5);
+		gbc_attackDice2.gridx = 1;
+		gbc_attackDice2.gridy = 5;
+		frame.getContentPane().add(attackDice2, gbc_attackDice2);
+		
+		JLabel attackDice3 = new JLabel("A3");
+		GridBagConstraints gbc_attackDice3 = new GridBagConstraints();
+		gbc_attackDice3.insets = new Insets(0, 0, 5, 5);
+		gbc_attackDice3.gridx = 1;
+		gbc_attackDice3.gridy = 6;
+		frame.getContentPane().add(attackDice3, gbc_attackDice3);
+		
+		JLabel defendDice1 = new JLabel("D1");
+		GridBagConstraints gbc_defendDice1 = new GridBagConstraints();
+		gbc_defendDice1.insets = new Insets(0, 0, 5, 5);
+		gbc_defendDice1.gridx = 2;
+		gbc_defendDice1.gridy = 4;
+		frame.getContentPane().add(defendDice1, gbc_defendDice1);
+		
+		JLabel defendDice2 = new JLabel("D2");
+		GridBagConstraints gbc_defendDice2 = new GridBagConstraints();
+		gbc_defendDice2.insets = new Insets(0, 0, 5, 5);
+		gbc_defendDice2.gridx = 2;
+		gbc_defendDice2.gridy = 5;
+		frame.getContentPane().add(defendDice2, gbc_defendDice2);
 
+		
 		JLabel defendLabel = new JLabel("Defending Units");
 		GridBagConstraints gbc_DfndLbl = new GridBagConstraints();
 		gbc_DfndLbl.insets = new Insets(0, 0, 5, 0);
@@ -170,11 +213,22 @@ public class RiskHelper {
 
 			attackUnits -= rollResult.getAttackUnitLosses();
 			defendUnits -= rollResult.getDefendUnitLosses();
-
+			
+			attackRolls = rollResult.attackRolls;
+			defendRolls = rollResult.defendRolls;
 			updateTextFields();
+			setLabelIcons();
 		}
 	}
 
+	public void setLabelIcons(){
+		int numAttackDice = attackRolls.length;
+		int numDefendDice = defendRolls.length;
+		
+		//attackDice1.setIcon(new ImageIcon("res/black_1.png"));
+		
+	}
+	
 	/**
 	 * Fetch unit numbers and update attackUnits and defendUnits
 	 */

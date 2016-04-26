@@ -7,8 +7,8 @@ public class Roll {
 
 	public static Random rand = new Random();
 
-	private int[] attackRolls;
-	private int[] defendRolls;
+	int[] attackRolls;
+	int[] defendRolls;
 
 	// TODO: Leaving these in as they may be useful in the future
 	// private int attackingUnits;
